@@ -34,10 +34,22 @@ public class Exercicio9 {
         );
          switch (scan.nextInt()){
              case 1 -> viewDeCriarConta();
-             case 2 -> System.out.printf("O saldo da sua conta é: R$%.2f \n",conta.getSaldo());
-             case 3 -> System.out.printf("Você tem R$%.2f disponível de cheque especial\n",conta.getChequeEspecial());
+             case 2 -> {
+                 if(conta != null){
+                     System.out.printf("O saldo da sua conta é: R$%.2f \n",conta.getSaldo());
+                 } else {
+                     System.out.println("Não é possível realizar depósito! Antes você deve criar uma conta.");
+                 }
+             }
+             case 3 -> {
+                     if (conta != null) {
+                         System.out.printf("O Valor do seu cheque especial é até R$%.2f \n", conta.getChequeEspecial());
+                     } else {
+                         System.out.println("Não é possível realizar depósito! Antes você deve criar uma conta.");
+                     }
+                 }
              case 4 -> viewDeRealizarDeposito();
-             case 5 -> {}
+             case 5 -> viewSacarDinherio();
              case 6 -> {}
              case 7 -> {}
              case 8 ->  {
@@ -49,54 +61,57 @@ public class Exercicio9 {
         }//Posteriormente criar Usuário, assim o usuário tem a conta e tal
     }
 
+    private static void viewSacarDinherio() {
+        if(conta == null) {
+            System.out.println("Sacar dinherio - Informe quanto deseja sacar:");
+            try {
+                conta.sacarValor(receberValorValido());
+            } catch (IllegalArgumentException error) {
+                System.out.println(error.getMessage());
+            }
+        }else {
+            System.out.println("Não é possível realizar deposito! Antes você deve criar uma conta.");
+        }
+    }
+
     public static void viewDeCriarConta(){
         if(conta == null){
-            double valorDepositoInicial =0;
             System.out.println("Crie agora mesmo uma conta realizando um depósito inicial");
-            while(valorDepositoInicial == 0) {
-                System.out.println("Informe o valor do depósito inicial: ");
-                try {
-                    valorDepositoInicial = scan.nextDouble();
-                    if (valorDepositoInicial <= 0) throw new IllegalArgumentException();
-                    conta = new Conta(valorDepositoInicial);
-                } catch (InputMismatchException e) {
-                    System.out.println("Entrada inválida, digite apenas números e use . para representar as casas decimais");
-                    scan.nextLine(); //
-                } catch (IllegalArgumentException e) {
-                    System.out.println("Deve ser inserido um valor númerico maior que 0");
-                }
-            }
+           conta = new Conta(receberValorValido());
             System.out.println("Conta criada com sucesso!");
         } else{
-            System.out.println("Você já possui uma conta cadastrada");
+            System.out.println("Você já possui uma conta cadastrada. Informações da conta: "+ conta);
         }
     }
 
     public static void viewDeRealizarDeposito() {
         if(conta != null){
-            double valor =0;
             System.out.println(
                     """
                     Vamos realizar o deposito na conta!
                     Informe o valor do depósito:""");
-            while(valor <= 0){
-                try{
-                    valor = scan.nextDouble();
-                    if (valor <= 0) throw new IllegalArgumentException();
-                    conta.realizarDeposito(valor);
-                } catch(InputMismatchException e){
-                    System.out.println("Entrada inválida, digite apenas números e use . para representar as casas decimais");
-                    scan.nextLine(); //
-                } catch(IllegalArgumentException e){
-                    System.out.println("Deve ser inserido um valor númerico maior que 0");
-                }
-            }
+            conta.realizarDeposito(receberValorValido());
             System.out.println("Depósito realizado com sucesso!");
             System.out.println("Informações sobre a conta: "+conta);
             System.out.println("-----------------------------------------------------");
         } else {
             System.out.println("Não é possível realizar deposito! Antes você deve criar uma conta.");
-
         }
+    }
+
+    public static double receberValorValido(){
+        double valor = 0;
+        while(valor <= 0){
+            try{
+                valor = scan.nextDouble();
+                if (valor <= 0) throw new IllegalArgumentException();
+            } catch(InputMismatchException e){
+                System.out.println("Entrada inválida, digite apenas números e use . para representar as casas decimais");
+                scan.nextLine(); //
+            } catch(IllegalArgumentException e){
+                System.out.println("Deve ser inserido um valor númerico maior que 0");
+            }
+        }
+        return valor;
     }
 }

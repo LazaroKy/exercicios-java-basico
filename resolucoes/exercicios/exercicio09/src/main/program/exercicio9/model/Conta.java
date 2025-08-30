@@ -55,4 +55,14 @@ public class Conta {
                 '}';
     }
 
+    public void sacarValor(double valor) {
+        if(saldo >= valor){
+            saldo -= valor;
+        } else if((saldo + chequeEspecial) >= valor){
+            saldo -= valor;
+            usoDoChequeEspecial = saldo *0.2;
+        }else {
+            throw new IllegalArgumentException("Valor de saque ultrapassa limite. Seu limite é de "+ (saldo+chequeEspecial));
+        }
+    }
 }
