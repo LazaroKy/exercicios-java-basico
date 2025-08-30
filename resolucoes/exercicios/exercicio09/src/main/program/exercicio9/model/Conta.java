@@ -5,8 +5,13 @@ public class Conta {
     private double chequeEspecial;
     private double usoDoChequeEspecial;
 
+    public Conta(){}
 
-    public Conta (){};
+    public Conta (double depositoInicial){
+        saldo = depositoInicial;
+        chequeEspecial = saldo > 500 ? saldo * 0.5 : 50.0;
+        usoDoChequeEspecial = 0;
+    };
 
     public double getSaldo() {
         return saldo;
@@ -33,9 +38,12 @@ public class Conta {
     }
 
     public void realizarDeposito(double valor){
-        saldo += valor;
-        if(saldo >500) chequeEspecial = saldo * 0.5;
-        else chequeEspecial = 50.0;
+        if(usoDoChequeEspecial !=0){
+            saldo += (valor -usoDoChequeEspecial);
+            usoDoChequeEspecial = 0;
+        } else {
+            saldo += valor;
+        }
     }
 
 
