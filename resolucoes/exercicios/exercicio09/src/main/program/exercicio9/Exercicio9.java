@@ -38,20 +38,29 @@ public class Exercicio9 {
                  if(conta != null){
                      System.out.printf("O saldo da sua conta é: R$%.2f \n",conta.getSaldo());
                  } else {
-                     System.out.println("Não é possível realizar depósito! Antes você deve criar uma conta.");
+                     System.out.println("Não é possível consultar saldo! Antes você deve criar uma conta.");
                  }
              }
              case 3 -> {
                      if (conta != null) {
                          System.out.printf("O Valor do seu cheque especial é até R$%.2f \n", conta.getChequeEspecial());
                      } else {
-                         System.out.println("Não é possível realizar depósito! Antes você deve criar uma conta.");
+                         System.out.println("Não é possível consultar cheque especial! Antes você deve criar uma conta.");
                      }
                  }
              case 4 -> viewDeRealizarDeposito();
-             case 5 -> viewSacarDinherio();
-             case 6 -> {}
-             case 7 -> {}
+             case 5 ,6-> viewDeSaqueGenericoDeDinherio();
+             case 7 -> {
+                        if (conta != null) {
+                            if(conta.getSaldo() <0){
+                                System.out.println("Você fez uso do cheque especial. Seu saldo é "+conta.getSaldo() +" e será cobrado com uma taxa de "+ conta.getUsoDoChequeEspecial()+" no próximo depósito");
+                            } else {
+                                System.out.println("Não, você não fez uso do cheque especial");
+                            }
+                        } else {
+                            System.out.println("Não é possível verificar uso do cheque especial! Antes você deve criar uma conta.");
+                        }
+                     }
              case 8 ->  {
                  continuarNoMenu = false;
                  System.out.println("Obrigado, esperamos que tenha tido uma ótima experiência!");
@@ -61,16 +70,16 @@ public class Exercicio9 {
         }//Posteriormente criar Usuário, assim o usuário tem a conta e tal
     }
 
-    private static void viewSacarDinherio() {
-        if(conta == null) {
-            System.out.println("Sacar dinherio - Informe quanto deseja sacar:");
+    private static void viewDeSaqueGenericoDeDinherio() {
+        if(conta != null) {
+            System.out.println("Diminuir dinherio da conta :( - Informe valor que deseja sacar/pagar:");
             try {
-                conta.sacarValor(receberValorValido());
+                conta.saqueGenericoValor(receberValorValido());
             } catch (IllegalArgumentException error) {
                 System.out.println(error.getMessage());
             }
         }else {
-            System.out.println("Não é possível realizar deposito! Antes você deve criar uma conta.");
+            System.out.println("Não é possível realizar saque! Antes você deve criar uma conta.");
         }
     }
 

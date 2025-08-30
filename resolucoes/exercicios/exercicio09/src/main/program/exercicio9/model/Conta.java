@@ -4,6 +4,7 @@ public class Conta {
     private double saldo;
     private double chequeEspecial;
     private double usoDoChequeEspecial;
+    private final double TAXA = 0.2;
 
     public Conta(){}
 
@@ -39,7 +40,7 @@ public class Conta {
 
     public void realizarDeposito(double valor){
         if(usoDoChequeEspecial !=0){
-            saldo += (valor -usoDoChequeEspecial);
+            saldo += (valor - (usoDoChequeEspecial *TAXA));
             usoDoChequeEspecial = 0;
         } else {
             saldo += valor;
@@ -55,14 +56,15 @@ public class Conta {
                 '}';
     }
 
-    public void sacarValor(double valor) {
+    public void saqueGenericoValor(double valor) {
         if(saldo >= valor){
             saldo -= valor;
         } else if((saldo + chequeEspecial) >= valor){
             saldo -= valor;
-            usoDoChequeEspecial = saldo *0.2;
+            double ultrapassouDoSaldo =valor - saldo;
+            usoDoChequeEspecial += ultrapassouDoSaldo;
         }else {
-            throw new IllegalArgumentException("Valor de saque ultrapassa limite. Seu limite é de "+ (saldo+chequeEspecial));
+            throw new IllegalArgumentException("Valor requirido ultrapassou limite. Seu limite é de "+ (saldo+chequeEspecial));
         }
     }
 }
