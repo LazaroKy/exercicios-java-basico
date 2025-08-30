@@ -34,9 +34,9 @@ public class Exercicio9 {
         );
          switch (scan.nextInt()){
              case 1 -> viewDeCriarConta();
-             case 2 -> {}
-             case 3 -> viewDeRealizarDeposito();
-             case 4 -> {}
+             case 2 -> System.out.printf("O saldo da sua conta é: R$%.2f \n",conta.getSaldo());
+             case 3 -> System.out.printf("Você tem R$%.2f disponível de cheque especial\n",conta.getChequeEspecial());
+             case 4 -> viewDeRealizarDeposito();
              case 5 -> {}
              case 6 -> {}
              case 7 -> {}
