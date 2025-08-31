@@ -32,10 +32,17 @@ public class Execicio10 {
             switch (scan.nextInt()) {
                 case 1-> viewParaLigarCarro();
                 case 2 -> viewParaDesligarCarro();
-                case 3 -> {}
-                case 4 -> {}
+                case 3 -> viewParaAcelerarCarro();
+                case 4 -> viewParaDesacelerarCarro();
                 case 5 -> {}
-                case 6 -> {}
+                case 6 -> {
+                    var estadoDoCarro = carro.isLigado() ? "ligado" : "desligado";
+                    var capacidadeDeReduzirMachar = carro.isVelocidadeMinimaPermitida() ? "Possível!" : "Se desejar, precisa reduzir velocidade";
+                    var capacidadeDePassarMachar = carro.isVelocidadeMaximaPermitida() ? "Possível!" : "Se desejar, precisa aumentar velocidade";
+                    System.out.printf("Sua velocidade é de %d, o carro está %s e está na %d marcha \n",carro.getVelocidade(), estadoDoCarro, carro.getMarcha());
+                    System.out.println("Capacidade de reduzir marcha: "+capacidadeDeReduzirMachar);
+                    System.out.println("Capacidade de passar marcha: "+capacidadeDePassarMachar);
+                }
                 case 7 -> viewParaTrocarMarcha();
                 case 8 -> {
                     continuarNoMenu = false;
@@ -44,6 +51,32 @@ public class Execicio10 {
                 default -> System.out.println("Não foi possível identifica a ação que deseja realizar, por favor insira um número válido!");
             }
         }
+    }
+
+    private static void viewParaDesacelerarCarro(){
+        if(carro.isLigado()) {
+            if(carro.getVelocidade()>0){
+                System.out.println("Vamos desacelerar um pouquinho");
+                if (!carro.isVelocidadeMinimaPermitida()) {
+                    System.out.println("humm..");
+                    carro.desacelerarCarro();
+                    System.out.printf("Velocidade atual: %s, Marcha atual: %d \n", carro.getVelocidade(), carro.getMarcha());
+                } else System.out.println("Você está na velocidade mínima da marcha, precisa reduzir para desacelerar ");
+            } else System.out.println("Você já está na velocidade mínima possível");
+        } else System.out.println("O carro deve estar ligado para reduzir a velocidade!");
+    }
+
+    private static void viewParaAcelerarCarro(){
+        if(carro.isLigado()){
+            if(carro.getVelocidade()<120){
+                System.out.println("Vamos acelerar um pouquinho");
+                if(!carro.isVelocidadeMaximaPermitida()) {
+                    System.out.println("Zummmm..");
+                    carro.acelerarCarro();
+                    System.out.printf("Velocidade atual: %s, Marcha atual: %d \n", carro.getVelocidade(), carro.getMarcha());
+                } else System.out.println("É preciso passar marcha, você está na velocidade limite da marcha do seu carro..");
+            } else System.out.println("Você já está na velocidade máxima possível, o que você pode fazer agora é reduzir.");
+        }  else System.out.println("O carro deve estar ligado para acelerar o carro!");
 
     }
 
@@ -94,11 +127,13 @@ public class Execicio10 {
     }
 
     private static void viewParaDesligarCarro() {
-        if(carro.isLigado() && carro.getMarcha()==0 && carro.getVelocidade()==0){
-            System.out.println("Desligando carro..");
-            System.out.print("brunff...  ");
-            carro.setLigado(false);
-            System.out.println("Carro desligado!");
+        if(carro.isLigado()){
+           if( carro.getMarcha()==0 && carro.getVelocidade()==0) {
+               System.out.println("Desligando carro..");
+               System.out.print("brunff...  ");
+               carro.setLigado(false);
+               System.out.println("Carro desligado!");
+           } else System.out.println("Carro em movimento.. Não é possível desligar, você precisa reduzir a velocidade e a marcha para 0");
         } else System.out.println("Carro já está desligado!");
     }
 }

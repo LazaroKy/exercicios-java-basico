@@ -32,6 +32,7 @@ public class Carro {
     public boolean passarMarcha(){
         if(marcha <6 && isVelocidadeMaximaPermitida()){
             marcha++;
+            velocidade++;
             return true;
         }
         return false;
@@ -42,6 +43,14 @@ public class Carro {
             return true;
         }
         return false;
+    }
+
+    public void acelerarCarro(){
+     velocidade++;
+    }
+
+    public void desacelerarCarro(){
+        velocidade--;
     }
 
     public boolean isVelocidadeMaximaPermitida(){
@@ -58,14 +67,14 @@ public class Carro {
     }
     public boolean isVelocidadeMinimaPermitida(){
         return switch (marcha) {
-            case 0 -> true;
             case 1 -> velocidade == 0;
-            case 2 -> velocidade >= 21;
-            case 3 -> velocidade >= 41;
-            case 4 -> velocidade >= 61;
-            case 5 -> velocidade >= 81;
-            case 6 -> velocidade >= 101;
+            case 2 -> velocidade == 21;
+            case 3 -> velocidade == 41;
+            case 4 -> velocidade == 61;
+            case 5 -> velocidade == 81;
+            case 6 -> velocidade == 101;
             default -> false;
         };
     }
+
 }
