@@ -34,7 +34,7 @@ public class Execicio10 {
                 case 2 -> viewParaDesligarCarro();
                 case 3 -> viewParaAcelerarCarro();
                 case 4 -> viewParaDesacelerarCarro();
-                case 5 -> {}
+                case 5 -> viewParaViraParaLado();
                 case 6 -> {
                     var estadoDoCarro = carro.isLigado() ? "ligado" : "desligado";
                     var capacidadeDeReduzirMachar = carro.isVelocidadeMinimaPermitida() ? "Possível!" : "Se desejar, precisa reduzir velocidade";
@@ -51,6 +51,23 @@ public class Execicio10 {
                 default -> System.out.println("Não foi possível identifica a ação que deseja realizar, por favor insira um número válido!");
             }
         }
+    }
+
+    public static void viewParaViraParaLado(){
+        if(carro.isLigado()){
+            if(carro.getMarcha()!=0 && carro.getMarcha()<2){
+                if(carro.getVelocidade()>=1 && carro.getVelocidade()<=40){
+                    System.out.println("Vamos virar para um lado. Você deseja passar marcha ou reduzir?");
+                    System.out.println("1 - Virar para esquerda");
+                    System.out.println("2 - Virar para direita");
+                    switch (scan.nextInt()){
+                        case 1-> System.out.println("Virando para a esquerdaa!");
+                        case 2-> System.out.println("Virando para a direita!");
+                        default -> System.out.println("Não foi possível identificar a direção para qual deseja virar. Tente realizar a ação novamente!");
+                    }
+                } else System.out.println("Você está muito rápido ou parado, então não consegue virar para os lados. Sua velocidade precisa ser entre 1KM/H - 40KM/h para poder virar para o lado.");
+            } else System.out.println("O carro precisa estar em movimento e não pode estar muito rápido para virar para o lado. Passe a marcha ou reduza de acordo com a necessidade!");
+        } else System.out.println("O carro deve estar ligado e em movimento para que seja possível virar para os lados!");
     }
 
     private static void viewParaDesacelerarCarro(){
@@ -108,8 +125,7 @@ public class Execicio10 {
             System.out.println("Vamos trocar de marcha. Você deseja passar marcha ou reduzir?");
             System.out.println("1 - Passar marcha");
             System.out.println("2 - Reduzir marcha");
-            int acaoDaMarcha = scan.nextInt();
-            switch (acaoDaMarcha){
+            switch (scan.nextInt()){
                 case 1-> viewParaPassarMarcha();
                 case 2-> viewParaReduzirMarcha();
                 default -> System.out.println("Não foi possível identificar se deseja reduzir ou passar marcha. Tente realizar a ação novamente!");
