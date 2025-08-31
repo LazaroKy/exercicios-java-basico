@@ -36,7 +36,7 @@ public class Execicio10 {
                 case 4 -> {}
                 case 5 -> {}
                 case 6 -> {}
-                case 7 -> {}
+                case 7 -> viewParaTrocarMarcha();
                 case 8 -> {
                     continuarNoMenu = false;
                     System.out.println("Obrigado, esperamos que tenha tido uma ótima experiência!");
@@ -45,6 +45,43 @@ public class Execicio10 {
             }
         }
 
+    }
+
+    private static void viewParaPassarMarcha(){
+        if(carro.passarMarcha()){
+            System.out.print("Zuuumm... ");
+            System.out.println("Marcha passada! Aceleraa!");
+        } else {
+            System.out.println("Não é mais possível passar marcha, você está na marcha "+carro.getMarcha()+" e sua velocidade ainda é "+carro.getVelocidade());
+            if(!carro.isVelocidadeMaximaPermitida()){
+                System.out.println("Você precisa acelerar mais para passar de marcha");
+            } else System.out.println("Você está na marcha e velocidade máxima do seu carro! O que você pode fazer é reduzir a marcha e desacelerar.");
+        }
+    }
+
+    private static void viewParaReduzirMarcha(){
+        if(carro.reduzirMarcha()){
+            System.out.print("Unhmm... ");
+            System.out.println("Marcha reduzida!");
+        } else {
+            System.out.println("Não é mais possível reduzir marcha, você está na marcha "+carro.getMarcha()+" e sua velocidade é "+carro.getVelocidade());
+            if(!carro.isVelocidadeMinimaPermitida()){
+                System.out.println("Você precisa diminuir sua velocidade para reduzir a marcha");
+            } else System.out.println("Você está na marcha e velocidade mínima do seu carro! O que você pode fazer é passar marcha e acelerar.");
+        }
+    }
+    private static void viewParaTrocarMarcha() {
+        if(carro.isLigado()){
+            System.out.println("Vamos trocar de marcha. Você deseja passar marcha ou reduzir?");
+            System.out.println("1 - Passar marcha");
+            System.out.println("2 - Reduzir marcha");
+            int acaoDaMarcha = scan.nextInt();
+            switch (acaoDaMarcha){
+                case 1-> viewParaPassarMarcha();
+                case 2-> viewParaReduzirMarcha();
+                default -> System.out.println("Não foi possível identificar se deseja reduzir ou passar marcha. Tente realizar a ação novamente!");
+            }
+        } else System.out.println("O carro deve estar ligado para passar marcha ou reduzir!");
     }
 
     private static void viewParaLigarCarro() {
@@ -56,7 +93,7 @@ public class Execicio10 {
         } else System.out.println("Carro já está ligado!");
     }
 
-    public static void viewParaDesligarCarro() {
+    private static void viewParaDesligarCarro() {
         if(carro.isLigado() && carro.getMarcha()==0 && carro.getVelocidade()==0){
             System.out.println("Desligando carro..");
             System.out.print("brunff...  ");
